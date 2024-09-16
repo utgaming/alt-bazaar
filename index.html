@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alt Generator - Minecraft Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-image: url('https://i.imgur.com/CI4GGZL.png'); /* Background image resembling Minecraft */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 3px solid #4CAF50; /* Minecraft Green */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            width: 50%;
+            text-align: center;
+        }
+        h2 {
+            color: #4CAF50; /* Minecraft Green */
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 15px;
+            font-size: 14px;
+            font-family: 'Press Start 2P', cursive;
+            width: 80%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 3px solid #4CAF50;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 14px;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #4CAF50; /* Minecraft Green */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 50px;
+        }
+        p {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Section for Redeeming Alt -->
+        <div class="section">
+            <h2>Redeem Minecraft Alt</h2>
+            <input type="text" id="redeemCode" placeholder="Enter redeem code">
+            <button onclick="redeemCode()">Redeem</button>
+            <p id="redeemMessage"></p>
+        </div>
+
+        <!-- Section for Saving Alt -->
+        <div class="section">
+            <h2>Save Minecraft Alt</h2>
+            <input type="text" id="saveCode" placeholder="Enter redeem code">
+            <input type="text" id="credentials" placeholder="Enter credentials (username & password)">
+            <button onclick="saveCredentials()">Save</button>
+            <p id="saveMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        // Function to redeem alt credentials using a code
+        function redeemCode() {
+            const code = document.getElementById("redeemCode").value.trim();
+            const redeemMessage = document.getElementById("redeemMessage");
+
+            // Check localStorage for existing credentials
+            let credentialsList = localStorage.getItem('credentialsList');
+            credentialsList = credentialsList ? JSON.parse(credentialsList) : {};
+
+            if (credentialsList.hasOwnProperty(code)) {
+                redeemMessage.textContent = "Redeem successful! Credentials: " + credentialsList[code];
+                redeemMessage.className = "success";
+            } else {
+                redeemMessage.textContent = "Invalid code! Please try again.";
+                redeemMessage.className = "error";
+            }
+        }
+
+        // Function to save alt credentials with a redeem code
+        function saveCredentials() {
+            const code = document.getElementById("saveCode").value.trim();
+            const credentials = document.getElementById("credentials").value.trim();
+            const saveMessage = document.getElementById("saveMessage");
+
+            // Check localStorage for existing credentials
+            let credentialsList = localStorage.getItem('credentialsList');
+            credentialsList = credentialsList ? JSON.parse(credentialsList) : {};
+
+            if (code && credentials) {
+                // Save credentials with the code as the key
+                credentialsList[code] = credentials;
+                localStorage.setItem('credentialsList', JSON.stringify(credentialsList));
+                saveMessage.textContent = "Credentials saved successfully!";
+                saveMessage.className = "success";
+            } else {
+                saveMessage.textContent = "Please enter both redeem code and credentials.";
+                saveMessage.className = "error";
+            }
+        }
+    </script>
+</body>
+</html>
